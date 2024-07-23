@@ -58,7 +58,6 @@ class PreConstructionSerializer(serializers.ModelSerializer):
     image = PreConstructionImageSerializer(many=True, read_only=True)
     floorplan = PreConstructionFloorPlanSerializer(many=True, read_only=True)
     city = CitySerializer()
-    developer = DeveloperSerializer()
 
     class Meta:
         model = PreConstruction
@@ -87,7 +86,6 @@ class PreConstructionSearchSerializer2(serializers.ModelSerializer):
 class PreConstructionSerializerSmall(serializers.ModelSerializer):
     image = PreConstructionImageSerializer(many=True, read_only=True)
     city = CitySerializerSmall()
-    developer = DeveloperSerializerSmall()
 
     class Meta:
         model = PreConstruction
