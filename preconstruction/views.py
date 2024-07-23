@@ -99,7 +99,7 @@ class PreConstructionListCreateView(generics.ListCreateAPIView):
         project_name = data.get('predata[project_name]')
 
         project_type = data.get('predata[project_type]')
-        project_address = data.get('predata[project_address]')
+        """ project_address = data.get('predata[project_address]') """
         description = data.get('predata[description]')
         price_starting_from = data.get('predata[price_starting_from]')
         price_to = data.get('predata[price_to]')
@@ -117,7 +117,6 @@ class PreConstructionListCreateView(generics.ListCreateAPIView):
             project_name=project_name,
             slug=slug,
             project_type=project_type,
-            project_address=project_address,
             description=description,
             price_starting_from=price_starting_from,
             price_to=price_to,
@@ -157,7 +156,6 @@ class PreConstructionRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIV
         city = City.objects.get(id=city_id)
         project_name = data.get('predata[project_name]')
         project_type = data.get('predata[project_type]')
-        project_address = data.get('predata[project_address]')
         description = data.get('predata[description]')
         price_starting_from = data.get('predata[price_starting_from]')
         price_to = data.get('predata[price_to]')
@@ -169,7 +167,6 @@ class PreConstructionRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIV
         instance.city = city
         instance.project_name = project_name
         instance.project_type = project_type
-        instance.project_address = project_address
         instance.description = description
         instance.price_starting_from = price_starting_from
         instance.price_to = price_to

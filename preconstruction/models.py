@@ -52,7 +52,7 @@ class PreConstruction(models.Model):
     project_type = models.CharField(
         max_length=500, choices=PROJECT_CHOICES, default="Condo")
     description = SummernoteTextField(blank=True)
-    project_address = models.CharField(max_length=500)
+    """ project_address = models.CharField(max_length=500) """
     date_of_upload = models.DateField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
     beds = models.IntegerField(default=0)
