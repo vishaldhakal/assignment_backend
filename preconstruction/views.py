@@ -92,9 +92,9 @@ class PreConstructionListCreateView(generics.ListCreateAPIView):
 
     def create(self, request, *args, **kwargs):
         data = request.data
-        developer_id = data.get('predata[developer][id]')
+        """ developer_id = data.get('predata[developer][id]') """
         city_id = data.get('predata[city][id]')
-        developer = Developer.objects.get(id=developer_id)
+        """ developer = Developer.objects.get(id=developer_id) """
         city = City.objects.get(id=city_id)
         project_name = data.get('predata[project_name]')
 
@@ -113,7 +113,6 @@ class PreConstructionListCreateView(generics.ListCreateAPIView):
             slug = f'{slug}-{PreConstruction.objects.all().count()}'
 
         preconstruction = PreConstruction.objects.create(
-            developer=developer,
             city=city,
             project_name=project_name,
             slug=slug,
@@ -152,9 +151,9 @@ class PreConstructionRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIV
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
         data = request.data
-        developer_id = data.get('predata[developer][id]')
+        """ developer_id = data.get('predata[developer][id]') """
         city_id = data.get('predata[city][id]')
-        developer = Developer.objects.get(id=developer_id)
+        """ developer = Developer.objects.get(id=developer_id) """
         city = City.objects.get(id=city_id)
         project_name = data.get('predata[project_name]')
         project_type = data.get('predata[project_type]')
@@ -166,7 +165,7 @@ class PreConstructionRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIV
         baths = data.get('predata[baths]')
         area = data.get('predata[area]')
 
-        instance.developer = developer
+        """ instance.developer = developer """
         instance.city = city
         instance.project_name = project_name
         instance.project_type = project_type

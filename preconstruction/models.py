@@ -43,7 +43,7 @@ class PreConstruction(models.Model):
         ("NaN", "NaN"),
     ]
 
-    developer = models.ForeignKey(Developer, on_delete=models.CASCADE)
+    """ developer = models.ForeignKey(Developer, on_delete=models.CASCADE) """
     city = models.ForeignKey(City, on_delete=models.CASCADE)
     project_name = models.CharField(max_length=500)
     slug = models.CharField(max_length=1000, unique=True)
