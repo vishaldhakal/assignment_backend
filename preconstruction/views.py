@@ -231,7 +231,10 @@ def PreConstructionsCityView(request, slug):
     status = request.GET.get('status')  # noqa: F811
     page_size = request.GET.get('page_size',60)
     project_type = request.GET.get('property_type')
-    price_starting_from = request.GET.get('price_min')
+    price_starting_from = int(request.GET.get('price_min'))
+    occupancy = int(request.GET.get('closing_year'))
+    beds = int(request.GET.get('bedrooms'))
+
     city = City.objects.get(slug=slug)
     cityser = CitySerializer(city)
 
@@ -242,6 +245,13 @@ def PreConstructionsCityView(request, slug):
 
     if status:
         preconstructions = preconstructions.filter(status=status)
+    if beds and beds!="Any":
+        preconstructions = preconstructions.filter(beds=project_type)
+    if occupancy:
+        if occupancy>2024:
+            preconstructions = preconstructions.filter(occupancy=occupancy)
+        else:
+            preconstructions = preconstructions.filter(occupancy__gte=occupancy)
     if project_type and project_type!="Any":
         preconstructions = preconstructions.filter(project_type=project_type)
     if price_starting_from and price_starting_from!=0:

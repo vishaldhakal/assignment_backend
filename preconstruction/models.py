@@ -39,8 +39,7 @@ class PreConstruction(models.Model):
         ("Detached", "Detached"),
         ("NaN", "NaN"),
     ]
-
-    """ developer = models.ForeignKey(Developer, on_delete=models.CASCADE) """
+    
     city = models.ForeignKey(City, on_delete=models.CASCADE)
     project_name = models.CharField(max_length=500)
     slug = models.CharField(max_length=1000, unique=True)
@@ -49,8 +48,8 @@ class PreConstruction(models.Model):
     project_type = models.CharField(
         max_length=500, choices=PROJECT_CHOICES, default="Condo"
     )
+    occupancy = models.IntegerField(default=2025)
     description = SummernoteTextField(blank=True)
-    """ project_address = models.CharField(max_length=500) """
     date_of_upload = models.DateField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
     beds = models.IntegerField(default=0)
