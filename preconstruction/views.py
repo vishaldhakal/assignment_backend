@@ -228,12 +228,8 @@ def PreConstructionDetailView(request, slug):
 
 @api_view(['GET'])
 def PreConstructionsCityView(request, slug):
-    """ https://api.assignhome.ca/api/preconstructions-city/calgar
-    y/?price_min=0&price_max=1000000&property_type=House&closing_year=2024&bedrooms=Any """
-
     status = request.GET.get('status')  # noqa: F811
     page_size = request.GET.get('page_size',60)
-    occupancy = request.GET.get('occupancy')
     project_type = request.GET.get('property_type')
     price_starting_from = request.GET.get('price_min')
     city = City.objects.get(slug=slug)
