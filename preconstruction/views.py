@@ -233,7 +233,7 @@ def PreConstructionsCityView(request, slug):
     project_type = request.GET.get('property_type')
     price_starting_from = int(request.GET.get('price_min'))
     occupancy = int(request.GET.get('closing_year'))
-    beds = int(request.GET.get('bedrooms'))
+    beds_check = request.GET.get('bedrooms')
 
     city = City.objects.get(slug=slug)
     cityser = CitySerializer(city)
@@ -245,8 +245,9 @@ def PreConstructionsCityView(request, slug):
 
     if status:
         preconstructions = preconstructions.filter(status=status)
-    if beds and beds!="Any":
-        preconstructions = preconstructions.filter(beds=project_type)
+    if beds_check and beds_check!="Any":
+        beds = int(beds_check)
+        preconstructions = preconstructions.filter(beds=beds)
     if occupancy:
         if occupancy>2024:
             preconstructions = preconstructions.filter(occupancy=occupancy)
