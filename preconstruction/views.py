@@ -246,8 +246,6 @@ def PreConstructionsCityView(request, slug):
 
     if status:
         preconstructions = preconstructions.filter(status=status)
-    if occupancy:
-        preconstructions = preconstructions.filter(occupancy=occupancy)
     if project_type and project_type!="Any":
         preconstructions = preconstructions.filter(project_type=project_type)
     if price_starting_from and price_starting_from!=0:
