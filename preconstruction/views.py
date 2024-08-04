@@ -229,10 +229,11 @@ def PreConstructionDetailView(request, slug):
 @api_view(['GET'])
 def PreConstructionsCityView(request, slug):
     status = request.GET.get('status')  # noqa: F811
+
     page_size = request.GET.get('page_size',60)
     project_type = request.GET.get('property_type')
-    price_starting_from = int(request.GET.get('price_min'))
-    occupancy = int(request.GET.get('closing_year'))
+    price_starting_from = int(request.GET.get('price_min',0))
+    occupancy = int(request.GET.get('closing_year',2024))
     beds_check = request.GET.get('bedrooms')
 
     city = City.objects.get(slug=slug)
