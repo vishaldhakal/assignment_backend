@@ -261,7 +261,7 @@ def PreConstructionsCityView(request, slug):
         preconstructions = preconstructions.filter(
             price_starting_from__gte=price_starting_from)
     if price_to and price_to!=1000000000000:
-        preconstructions = preconstructions.filter(price_to__lte=price_to)
+        preconstructions = preconstructions.filter(price_starting_from__lte=price_to)
 
     preconstructions = paginator.paginate_queryset(preconstructions, request)
         
