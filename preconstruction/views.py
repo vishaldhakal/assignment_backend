@@ -233,6 +233,7 @@ def PreConstructionsCityView(request, slug):
     page_size = request.GET.get('page_size',60)
     project_type = request.GET.get('property_type')
     price_starting_from = int(request.GET.get('price_min',0))
+    price_to = int(request.GET.get('price_max',1000000000000))
     occupancy = int(request.GET.get('closing_year',2024))
     beds_check = request.GET.get('bedrooms')
 
@@ -259,6 +260,8 @@ def PreConstructionsCityView(request, slug):
     if price_starting_from and price_starting_from!=0:
         preconstructions = preconstructions.filter(
             price_starting_from__gte=price_starting_from)
+    if price_to and price_to!=1000000000000:
+        preconstructions = preconstructions.filter(price_to__lte=price_to)
 
     preconstructions = paginator.paginate_queryset(preconstructions, request)
         
