@@ -48,7 +48,7 @@ class PreConstruction(models.Model):
     project_type = models.CharField(
         max_length=500, choices=PROJECT_CHOICES, default="Condo"
     )
-    occupancy = models.IntegerField(default=2025)
+    occupancy = models.IntegerField(default=2025,null=True,blank=True)
     description = SummernoteTextField(blank=True)
     date_of_upload = models.DateField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
