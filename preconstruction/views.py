@@ -113,8 +113,6 @@ class PreConstructionListCreateView(generics.ListCreateAPIView):
         if PreConstruction.objects.filter(slug=slug).exists():
             slug = f'{slug}-{PreConstruction.objects.all().count()}'
 
-        occ= int(occupancy)
-
         preconstruction = PreConstruction.objects.create(
             city=city,
             project_name=project_name,
@@ -123,7 +121,7 @@ class PreConstructionListCreateView(generics.ListCreateAPIView):
             description=description,
             price_starting_from=price_starting_from,
             price_to=price_to,
-            occupancy=occ,
+            occupancy=occupancy,
             beds=beds,
             baths=baths,
             area=area
@@ -167,7 +165,6 @@ class PreConstructionRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIV
         baths = data.get('predata[baths]')
         area = data.get('predata[area]')
         occupancy = data.get('predata[occupancy')
-        occ= int(occupancy)
 
         """ instance.developer = developer """
         instance.city = city
@@ -179,7 +176,7 @@ class PreConstructionRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIV
         instance.beds = beds
         instance.baths = baths
         instance.area = area
-        instance.occupancy = occ
+        instance.occupancy = occupancy
 
         if instance.slug != slugify(project_name):
             if PreConstruction.objects.filter(slug=slugify(project_name)).exists():
