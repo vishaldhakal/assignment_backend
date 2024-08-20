@@ -164,7 +164,7 @@ class PreConstructionRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIV
         beds = data.get('predata[beds]')
         baths = data.get('predata[baths]')
         area = data.get('predata[area]')
-        occupancy = data.get('predata[occupancy')
+        occupancy = data.get('predata[occupancy]')
 
         """ instance.developer = developer """
         instance.city = city
