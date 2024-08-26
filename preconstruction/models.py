@@ -52,8 +52,8 @@ class PreConstruction(models.Model):
     description = SummernoteTextField(blank=True)
     date_of_upload = models.DateField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
-    beds = models.IntegerField(default=0)
-    baths = models.IntegerField(default=0)
+    beds = models.FloatField(default=0)
+    baths = models.FloatField(default=0)
     area = models.FloatField(default=0)
 
     def __str__(self):
