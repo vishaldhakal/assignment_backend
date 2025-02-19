@@ -90,6 +90,13 @@ class PreConstructionListCreateView(generics.ListCreateAPIView):
     serializer_class = PreConstructionSerializer
     pagination_class = LargeResultsSetPagination
 
+    def get_queryset(self):
+        queryset = PreConstruction.objects.all()
+        featured_only = self.request.query_params.get('featured', None)
+        if featured_only:
+            queryset = queryset.filter(is_featured=True)
+        return queryset.order_by('-is_featured', '-last_updated')
+
     def create(self, request, *args, **kwargs):
         data = request.data
         """ developer_id = data.get('predata[developer][id]') """
@@ -245,6 +252,10 @@ def PreConstructionsCityView(request, slug):
     cityser = CitySerializer(city)
 
     preconstructions = PreConstruction.objects.filter(city__slug=slug)
+    
+    # Add featured sorting
+    preconstructions = preconstructions.order_by('-is_featured', '-last_updated')
+    
     #add pagination
     paginator = PageNumberPagination()
     paginator.page_size = page_size
@@ -525,3 +536,76 @@ class NewsCategoryListCreateView(generics.ListCreateAPIView):
 class NewsCategoryRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
     queryset = NewsCategory.objects.all()
     serializer_class = NewsCategorySerializer
+
+@api_view(['GET'])
+def get_featured_precons(request):
+    featured_precons = PreConstruction.objects.filter(is_featured=True)
+    serializer = PreConstructionSerializerSmall(featured_precons, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def search_precons(request):
+    queryset = PreConstruction.objects.all()
+    
+    # Get filter parameters
+    city = request.GET.get('city')
+    min_price = request.GET.get('min_price')
+    max_price = request.GET.get('max_price')
+    project_type = request.GET.get('project_type')
+    beds = request.GET.get('beds')
+    baths = request.GET.get('baths')
+    min_area = request.GET.get('min_area')
+    max_area = request.GET.get('max_area')
+    occupancy_year = request.GET.get('occupancy')
+    featured_only = request.GET.get('featured', False)
+    
+    # Apply filters
+    if city:
+        queryset = queryset.filter(city__slug=city)
+    if min_price:
+        queryset = queryset.filter(price_starting_from__gte=float(min_price))
+    if max_price:
+        queryset = queryset.filter(price_starting_from__lte=float(max_price))
+    if project_type and project_type != "Any":
+        queryset = queryset.filter(project_type=project_type)
+    if beds and beds != "Any":
+        queryset = queryset.filter(beds=float(beds))
+    if baths and baths != "Any":
+        queryset = queryset.filter(baths=float(baths))
+    if min_area:
+        queryset = queryset.filter(area__gte=float(min_area))
+    if max_area:
+        queryset = queryset.filter(area__lte=float(max_area))
+    if occupancy_year:
+        queryset = queryset.filter(occupancy=int(occupancy_year))
+    if featured_only:
+        queryset = queryset.filter(is_featured=True)
+    
+    # Apply ordering
+    queryset = queryset.order_by('-is_featured', '-last_updated')
+    
+    # Pagination
+    page_size = int(request.GET.get('page_size', 10))
+    paginator = PageNumberPagination()
+    paginator.page_size = page_size
+    
+    page = paginator.paginate_queryset(queryset, request)
+    serializer = PreConstructionSerializerSmall(page, many=True)
+    
+    return paginator.get_paginated_response(serializer.data)
+
+@api_view(['POST'])
+def toggle_featured_status(request, pk):
+    try:
+        preconstruction = PreConstruction.objects.get(pk=pk)
+        preconstruction.is_featured = not preconstruction.is_featured
+        preconstruction.save()
+        return Response({
+            'status': 'success',
+            'is_featured': preconstruction.is_featured
+        })
+    except PreConstruction.DoesNotExist:
+        return Response({
+            'status': 'error',
+            'message': 'PreConstruction not found'
+        }, status=404)

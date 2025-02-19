@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-from .views import DeveloperListCreateView,get_all_precons_search,get_all_precons_city,ContactFormSubmission,PreConstructionsDeveloper,news_detail, slugify_all_news,DeveloperRetrieveUpdateDeleteView, PreConstructionListCreateView, PreConstructionRetrieveUpdateDeleteView, EventListCreateView, EventRetrieveUpdateDeleteView, NewsListCreateView, NewsRetrieveUpdateDeleteView, FavouriteListCreateView, FavouriteRetrieveUpdateDeleteView, CityListCreateView, CityRetrieveUpdateDeleteView, PreConstructionDetailView, PreConstructionsCityView, delete_image, delete_floorplan, remove_last_part_of_slug, get_all_city, get_related_precons,get_all_precons,NewsCategoryListCreateView,NewsCategoryRetrieveUpdateDeleteView
+from .views import DeveloperListCreateView,get_all_precons_search,get_all_precons_city,ContactFormSubmission,PreConstructionsDeveloper,news_detail, slugify_all_news,DeveloperRetrieveUpdateDeleteView, PreConstructionListCreateView, PreConstructionRetrieveUpdateDeleteView, EventListCreateView, EventRetrieveUpdateDeleteView, NewsListCreateView, NewsRetrieveUpdateDeleteView, FavouriteListCreateView, FavouriteRetrieveUpdateDeleteView, CityListCreateView, CityRetrieveUpdateDeleteView, PreConstructionDetailView, PreConstructionsCityView, delete_image, delete_floorplan, remove_last_part_of_slug, get_all_city, get_related_precons,get_all_precons,NewsCategoryListCreateView,NewsCategoryRetrieveUpdateDeleteView, get_featured_precons, search_precons, toggle_featured_status
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -64,4 +64,7 @@ urlpatterns = [
          name='favourite-list-create'),
     path('favourites/<int:pk>/', FavouriteRetrieveUpdateDeleteView.as_view(),
          name='favourite-retrieve-update-delete'),
+    path('featured-precons/', get_featured_precons, name='featured-precons'),
+    path('search-precons/', search_precons, name='search-precons'),
+    path('toggle-featured/<int:pk>/', toggle_featured_status, name='toggle-featured'),
 ]

@@ -44,6 +44,7 @@ class PreConstruction(models.Model):
     project_name = models.CharField(max_length=500)
     slug = models.CharField(max_length=1000, unique=True)
     price_starting_from = models.FloatField(default=0)
+    is_featured = models.BooleanField(default=False)
     price_to = models.FloatField(default=0)
     project_type = models.CharField(
         max_length=500, choices=PROJECT_CHOICES, default="Condo"
