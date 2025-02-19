@@ -12,6 +12,7 @@ import datetime
 from rest_framework import generics
 from .serializers import *
 from django.utils.text import slugify
+from django.db.models import Q
 
 
 class DeveloperListCreateView(generics.ListCreateAPIView):
@@ -549,6 +550,7 @@ def search_precons(request):
     
     # Get filter parameters
     city = request.GET.get('city')
+    search = request.GET.get('search')
     min_price = request.GET.get('min_price')
     max_price = request.GET.get('max_price')
     project_type = request.GET.get('project_type')
@@ -580,6 +582,8 @@ def search_precons(request):
         queryset = queryset.filter(occupancy=int(occupancy_year))
     if featured_only:
         queryset = queryset.filter(is_featured=True)
+    if search:
+        queryset = queryset.filter(Q(project_name__icontains=search) | Q(city__name__icontains=search))
     
     # Apply ordering
     queryset = queryset.order_by('-is_featured', '-last_updated')
