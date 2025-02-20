@@ -511,9 +511,10 @@ def ContactFormSubmission(request):
         phone = request.POST["phone"]
         message = request.POST["message"]
         realtor = request.POST["realtor"]
+        url = request.POST.get("url","")
 
         if validate_name(request.POST["name"]) and validate_email(request.POST["email"]) and validate_phone(request.POST["phone"]):
-            body = f"Name: {name}\nEmail: {email}\nPhone: {phone}\nMessage: {message}\nIs a realtor?: {realtor}"
+            body = f"Name: {name}\nEmail: {email}\nPhone: {phone}\nMessage: {message}\nIs a realtor?: {realtor}\nURL: {url}"
             email = EmailMessage(
                 subject, body, emaill, ["milan@homebaba.ca","samvalji.homebaba@gmail.com"],
                 reply_to=[email], headers=headers
